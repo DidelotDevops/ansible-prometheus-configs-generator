@@ -1,0 +1,8 @@
+---
+
+- name: Generate prometheus configuration file.
+  template:
+    src: prometheus.yml.j2
+    dest: "{{ prometheus_path_to_generated_config }}/prometheus.yml"
+  run_once: true
+  delegate_to: localhost

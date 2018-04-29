@@ -1,0 +1,37 @@
+global:
+  scrape_interval:     15s # By default, scrape targets every 15 seconds.
+  evaluation_interval: 15s # By default, scrape targets every 15 seconds.
+
+  # Attach these labels to any time series or alerts when communicating with
+  # external systems (federation, remote storage, Alertmanager).
+  external_labels:
+    monitor: '{{ prometheus_monitor_label }}'
+{% if prometheus_rule_files is not none %}
+
+
+rule_files:
+{% for (key, value) in prometheus_rule_files.iteritems() %}
+  - {{ prometheus_rule_path }}/{{ value.dest }}
+{% endfor %}
+{% endif %}
+{% if prometheus_alerting is not none %}
+
+
+alerting:
+  {{ prometheus_alerting | to_nice_yaml(indent=2) | indent(2) }}
+{% endif %}
+
+# A list of scrape configurations.
+scrape_configs:
+
+  - job_name: 'prometheus'
+    scrape_interval: 5s
+    static_configs:
+      - targets:
+        - 'localhost:{{ prometheus_port }}'
+
+{% if prometheus_extra_scrape_configs is not none %}
+{% for job in prometheus_extra_scrape_configs %}
+  - {{ job | to_nice_yaml(indent=2) | indent(4) }}
+{% endfor %}
+{% endif %}

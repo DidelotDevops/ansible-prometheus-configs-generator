@@ -1,0 +1,6 @@
+prometheus_monitor_label: monitoring
+prometheus_rule_files:
+prometheus_alerting:
+prometheus_port: 9090
+prometheus_extra_scrape_configs:
+prometheus_path_to_generated_config: "{{ playbook_dir }}"

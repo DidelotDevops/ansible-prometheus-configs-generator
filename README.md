@@ -24,7 +24,7 @@ None.
 ## Example Playbook
 
     - role: prometheus-configs-generator
-      prometheus_path_to_generated_config: "../../docker/managers/prometheus"
+      prometheus_path_to_generated_config: "../../docker/prometheus"
       prometheus_extra_scrape_configs:
         - job_name: 'cadvisor'
           scrape_interval: 5s
